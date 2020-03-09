@@ -147,6 +147,7 @@
   OldCreateOrder = False
   Position = poDesigned
   OnActivate = FormActivate
+  OnClose = FormClose
   PixelsPerInch = 96
   TextHeight = 13
   object StatusBar1: TStatusBar
@@ -348,7 +349,7 @@
     Top = 41
     Width = 738
     Height = 387
-    ActivePage = Оплаты
+    ActivePage = TabSheet3
     Align = alClient
     TabOrder = 2
     object Оплаты: TTabSheet
@@ -482,18 +483,25 @@
         Left = 3
         Top = 0
         Width = 482
-        Height = 105
+        Height = 73
         Caption = #1053#1072#1089#1090#1088#1086#1081#1082#1080' '#1088#1072#1073#1086#1095#1080#1093' '#1087#1072#1087#1086#1082
         TabOrder = 0
         DesignSize = (
           482
-          105)
+          73)
         object Label3: TLabel
           Left = 4
           Top = 20
           Width = 93
           Height = 13
           Caption = #1042#1093#1086#1076#1103#1097#1080#1077' '#1092#1072#1081#1083#1099':'
+        end
+        object Label4: TLabel
+          Left = 4
+          Top = 47
+          Width = 130
+          Height = 13
+          Caption = #1047#1072#1075#1086#1083#1086#1074#1086#1082' '#1087#1077#1088#1074#1086#1081' '#1089#1090#1088#1086#1082#1080
         end
         object Edit1: TEdit
           Left = 103
@@ -513,6 +521,24 @@
           Caption = '...'
           TabOrder = 1
           OnClick = Button1Click
+        end
+        object Edit2: TEdit
+          Left = 140
+          Top = 44
+          Width = 260
+          Height = 21
+          TabOrder = 2
+          Text = '1^80000006^'
+        end
+        object CheckBox1: TCheckBox
+          Left = 405
+          Top = 46
+          Width = 73
+          Height = 17
+          Caption = #1055#1088#1086#1074#1077#1088#1103#1090#1100
+          Checked = True
+          State = cbChecked
+          TabOrder = 3
         end
       end
       object GroupBox2: TGroupBox

@@ -9,7 +9,7 @@ uses
   FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf,
   FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys,
   FireDAC.VCLUI.Wait, FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf,
-  FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client;
+  FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, inifiles;
 
 type
   TForm1 = class(TForm)
@@ -48,12 +48,17 @@ type
     ProgressBar1: TProgressBar;
     FDConnection1: TFDConnection;
     FDQuery1: TFDQuery;
+    Label4: TLabel;
+    Edit2: TEdit;
+    CheckBox1: TCheckBox;
     procedure Timer1Timer(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
     procedure Auto(stringgridn:tstringgrid);
     procedure BitBtn6Click(Sender: TObject);
+    function LoadNBRBFile(Sf:string):integer;
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
   public
@@ -67,11 +72,29 @@ implementation
 
 {$R *.dfm}
 
-Procedure LoadNBRBFile(S:string);///////////////////////////////////////////////
- begin
-  // loading one file from NBRB
+function TForm1.LoadNBRBFile(Sf:string):integer;///////////////////////////////////////////////
+ var
+  errc:integer;
+  fi,fo:textfile;
+  s,s1:string;
+ begin  // loading one file from NBRB
+  errc:=0;
+  assignfile(fi,sf);
+  reset(fi);// open for read
+  ReadLn(fi,s);
+  if CheckBox1.Checked then // checking for first string
+   begin
+    if pos(edit2.Text,s)<>1 then
+     errc:=errc+1;
+   end;
+  While not(eof(fi)) do // loading every string
+   begin
+    ReadLn(fi,s);
+    // parse and load this string
 
-
+   end;
+  CloseFile(fi); // and closing file
+  LoadNBRBFile:=errc;// returning result
  end;
 
 procedure TForm1.Auto(stringgridn:tstringgrid);
@@ -115,17 +138,34 @@ end;
 
 procedure TForm1.BitBtn6Click(Sender: TObject);
 var
- i:integer;
+ i,errc:integer;
 begin
   Progressbar1.Max:=Stringgrid1.RowCount-1;
   ProgressBar1.Min:=0;
   ProgressBar1.Position:=0;
-
+  errc:=0;
   for i:=0 to Stringgrid1.RowCount-1 do
    begin
-    LoadNBRBFile(Stringgrid1.Cells[1,i]);
-
+    if LoadNBRBFile(Stringgrid1.Cells[1,i])=0 then
+      begin
+        Stringgrid1.Cells[0,i]:='Загружен';
+        Auto(Stringgrid1);
+      end
+    else
+     begin
+      Stringgrid1.Cells[0,i]:='Ошибка';
+      errc:=errc+1;
+      Auto(Stringgrid1);
+     end;
     ProgressBar1.Position:=i;
+    end;
+  If errc>0 then
+   begin
+    ShowMessage('Обнаружены ошибки при загрузке');
+   end
+  else
+   begin
+    ShowMessage('Все файлы загружены успешно');
    end;
 end;
 
@@ -138,8 +178,30 @@ begin
 end;
 
 procedure TForm1.FormActivate(Sender: TObject);
+ var
+  f:TIniFile;
+  s:string;
 begin
  Timer1Timer(Form1 as TObject);
+ f:=Tinifile.Create(extractfilepath(application.exename)+'/settings.ini');
+ s:=edit1.Text;
+ Edit1.Text:=f.ReadString('MAIN', 'INPUT FOLDER', s);
+ s:=edit2.Text;
+ Edit2.Text:=f.ReadString('MAIN', 'FIRST PATTERN', s);
+
+ f.Free;
+end;
+
+procedure TForm1.FormClose(Sender: TObject; var Action: TCloseAction);
+var
+  f:TIniFile;
+  s:string;
+begin
+ f:=Tinifile.Create(extractfilepath(application.exename)+'/settings.ini');
+ f.WriteString('MAIN', 'INPUT FOLDER', Edit1.Text);
+ f.WriteString('MAIN', 'FIRST PATTERN', Edit2.Text);
+
+ f.Free;
 end;
 
 procedure TForm1.Timer1Timer(Sender: TObject);

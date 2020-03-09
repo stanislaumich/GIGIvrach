@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <BorlandProject>
 	<Transactions>
-    <Transaction>1899.12.30 00:00:00.000.543,S:\_programming\GIGIvrach\GigiVrach.dproj=S:\_programming\Project1.dproj</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.293,S:\_programming\Unit1.dfm=S:\_programming\GIGIvrach\Umain.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.293,S:\_programming\Unit1.pas=S:\_programming\GIGIvrach\Umain.pas</Transaction>
     <Transaction>1899.12.30 00:00:00.000.931,=S:\_programming\Unit1.pas</Transaction>
     <Transaction>1899.12.30 00:00:00.000.507,=S:\_programming\MYUNITS\Ustr.pas</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.293,S:\_programming\GIGIvrach\Umain.dfm=S:\_programming\Unit1.dfm</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.293,S:\_programming\GIGIvrach\Umain.pas=S:\_programming\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.543,S:\_programming\Project1.dproj=S:\_programming\GIGIvrach\GigiVrach.dproj</Transaction>
   </Transactions>
 </BorlandProject>
