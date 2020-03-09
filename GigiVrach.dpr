@@ -2,7 +2,8 @@ program GigiVrach;
 
 uses
   Vcl.Forms,
-  Umain in 'Umain.pas' {Form1};
+  Umain in 'Umain.pas' {Form1},
+  Ustr in '..\MYUNITS\Ustr.pas';
 
 {$R *.res}
 
